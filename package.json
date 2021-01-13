@@ -1,0 +1,25 @@
+{
+  "name": "wp-react-plugin-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "wp-env": "wp-env",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sainthkh/wp-react-plugin-boilerplate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sainthkh/wp-react-plugin-boilerplate/issues"
+  },
+  "homepage": "https://github.com/sainthkh/wp-react-plugin-boilerplate#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@wordpress/env": "3.0.0"
+  }
+}
