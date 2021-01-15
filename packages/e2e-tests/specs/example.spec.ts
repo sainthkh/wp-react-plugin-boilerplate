@@ -1,26 +1,27 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import {
 	insertBlock,
 	createNewPost,
 	createURL,
 	publishPost,
-}
-// @ts-ignore
-from '@wordpress/e2e-test-utils';
+	// @ts-ignore
+} from '@wordpress/e2e-test-utils';
 
 // Default example copied from the official Jest site.
 // https://jestjs.io/docs/en/puppeteer
-describe('Google', () => {
-  beforeAll(async () => {
-    await page.goto('https://google.com');
-  });
+describe( 'Google', () => {
+	beforeAll( async () => {
+		await page.goto( 'https://google.com' );
+	} );
 
-  it('should be titled "Google"', async () => {
-    await expect(page.title()).resolves.toMatch('Google');
-  });
-});
+	it( 'should be titled "Google"', async () => {
+		await expect( page.title() ).resolves.toMatch( 'Google' );
+	} );
+} );
 
-describe('Shortcode', () => {
-	it('shortcode is shown correctly', async () => {
+describe( 'Shortcode', () => {
+	it( 'shortcode is shown correctly', async () => {
 		// Create post and enter title.
 		await createNewPost();
 		await page.keyboard.type( 'Title' );
@@ -33,18 +34,18 @@ describe('Shortcode', () => {
 		await publishPost();
 
 		// Navigate to the published post.
-		const [button] = await page.$x("//a[contains(., 'View Post')]");
+		const [ button ] = await page.$x( "//a[contains(., 'View Post')]" );
 
-		if(button) {
+		if ( button ) {
 			await button.click();
 		}
 
 		// Wait for load
-		await page.waitForSelector('.entry-title');
+		await page.waitForSelector( '.entry-title' );
 
 		// Check if the shortcode is applied correctly.
-		const [text] = await page.$x("//h1[contains(., 'Hello World')]");
+		const [ text ] = await page.$x( "//h1[contains(., 'Hello World')]" );
 
-		expect(text).not.toBeNull()
-	})
-})
+		expect( text ).not.toBeNull();
+	} );
+} );
