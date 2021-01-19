@@ -3,7 +3,6 @@
 import {
 	insertBlock,
 	createNewPost,
-	createURL,
 	publishPost,
 	// @ts-ignore
 } from '@wordpress/e2e-test-utils';
@@ -28,7 +27,7 @@ describe( 'Shortcode', () => {
 
 		// Add shortcode block
 		await insertBlock( 'Shortcode' );
-		await page.keyboard.type( '[Hello]' );
+		await page.keyboard.type( '[React]' );
 
 		// Publish post
 		await publishPost();
@@ -44,8 +43,8 @@ describe( 'Shortcode', () => {
 		await page.waitForSelector( '.entry-title' );
 
 		// Check if the shortcode is applied correctly.
-		const [ text ] = await page.$x( "//h1[contains(., 'Hello World')]" );
+		const [ link ] = await page.$x( "//a[contains(., 'Learn React')]" );
 
-		expect( text ).not.toBeNull();
+		expect( link ).not.toBeNull();
 	} );
 } );

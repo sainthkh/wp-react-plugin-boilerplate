@@ -16,8 +16,20 @@
 defined( 'WP_REACT_PLUGIN_DEVELOPMENT_MODE' ) or define( 'WP_REACT_PLUGIN_DEVELOPMENT_MODE', true );
 ### END AUTO-GENERATED DEFINES
 
-add_shortcode('Hello', 'wp_react_plugin_hello_shortcode');
+define('WP_REACT_PLUGIN_PATH', dirname(__FILE__));
+define('WP_REACT_PLUGIN_URL', plugins_url('', __FILE__));
 
-function wp_react_plugin_hello_shortcode() {
-	return '<h1>Hello World</h1>';
+add_shortcode('React', 'wp_react_plugin_react');
+
+function wp_react_plugin_react() {
+	wp_enqueue_script( 'wp-react-plugin-script' );
+
+	return '<div id="wp-react-root"></div>';
+}
+
+add_action( 'wp_enqueue_scripts', 'wp_react_plugin_load_react' );
+
+function wp_react_plugin_load_react() {
+	wp_register_script( 'wp-react-plugin-script', WP_REACT_PLUGIN_URL . '/build/build.js' );
+	wp_localize_script( 'wp-react-plugin-script', 'wpReactPlugin', array( 'appId' => 'wp-react-root' ) );
 }
