@@ -98,7 +98,6 @@ jobs:
       with:
         path: |
           node_modules
-          /home/runner/.cache/ms-playwright/
         key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
     - name: Restore vendor
       uses: actions/cache@v2
@@ -109,7 +108,8 @@ jobs:
       if: ${{ always() }}
     - run: npm run lint-css
       if: ${{ always() }}
-    - run: npm run lint-php
-      if: ${{ always() }}
     - run: npm run check-type
+      if: ${{ always() }}
+    - run: npm run wp-env start
+    - run: npm run lint-php
       if: ${{ always() }}
