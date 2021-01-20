@@ -28,6 +28,9 @@ jobs:
     - run: npm i
       if: steps.npm-cache.outputs.cache-hit != 'true'
 
+    - name: Start wp-env
+      run: npm run wp-env start
+
     # vendor
     - name: Restore vendor
       uses: actions/cache@v2
