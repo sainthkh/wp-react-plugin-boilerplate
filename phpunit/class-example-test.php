@@ -11,8 +11,8 @@ class Example_Test extends WP_UnitTestCase {
 	 * Test add function
 	 */
 	function test_add() {
-		$result = wp_react_plugin_add(1, 4);
+		$result = wp_react_plugin_add( 1, 4 );
 
-		$this->assertEquals(5, $result);
+		$this->assertEquals( 5, $result );
 	}
 }
