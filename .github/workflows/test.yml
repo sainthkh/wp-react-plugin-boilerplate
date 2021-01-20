@@ -111,5 +111,6 @@ jobs:
     - run: npm run check-type
       if: ${{ always() }}
     - run: npm run wp-env start
+      if: ${{ always() }}
     - run: npm run lint-php
       if: ${{ always() }}
