@@ -17,7 +17,8 @@
     "lint-php": "wp-env run composer run-script lint",
     "test-e2e": "wp-scripts test-e2e --config packages/e2e-tests/jest.config.js",
     "test-e2e:i": "npm run test-e2e -- --puppeteer-interactive",
-    "test-unit": "wp-scripts test-unit-js --config test/unit/jest.config.js",
+		"test-unit": "wp-scripts test-unit-js --config test/unit/jest.config.js",
+		"test-unit-php": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/wp-react-plugin-boilerplate/phpunit.xml.dist --verbose\"",
     "wp-env": "wp-env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -29,7 +29,7 @@ add_shortcode( 'React', 'wp_react_plugin_react' );
 function wp_react_plugin_react() {
 	wp_enqueue_script( 'wp-react-plugin-script' );
 
-	return '<h1>' . add( 1, 3 ) . '</h1>' . '<div id="wp-react-root"></div>';
+	return '<h1>' . wp_react_plugin_add( 1, 3 ) . '</h1>' . '<div id="wp-react-root"></div>';
 }
 
 add_action( 'wp_enqueue_scripts', 'wp_react_plugin_load_react' );
