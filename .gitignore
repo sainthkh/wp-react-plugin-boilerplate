@@ -28,6 +28,7 @@ vendor/
 build/
 /theme/asset/
 /theme/style.css
+plugin.zip
 
 # ignore debug-related plugins
 .wp-env.override.json
