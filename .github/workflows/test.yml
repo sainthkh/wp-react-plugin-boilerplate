@@ -114,3 +114,51 @@ jobs:
       if: ${{ always() }}
     - run: npm run lint-php
       if: ${{ always() }}
+
+  unit-js:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Restore vendor
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: npm run test-unit
+
+  unit-php:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Restore vendor
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: npm run test-unit-php
