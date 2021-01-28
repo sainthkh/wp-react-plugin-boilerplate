@@ -19,7 +19,7 @@ defined( 'WP_REACT_PLUGIN_DEVELOPMENT_MODE' ) or define( 'WP_REACT_PLUGIN_DEVELO
 define( 'WP_REACT_PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'WP_REACT_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 
-require WP_REACT_PLUGIN_PATH . '/lib/example.php';
+require WP_REACT_PLUGIN_PATH . '/lib/load.php';
 
 add_shortcode( 'React', 'wp_react_plugin_react' );
 
