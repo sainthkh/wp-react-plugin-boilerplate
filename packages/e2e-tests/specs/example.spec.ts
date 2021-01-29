@@ -45,6 +45,6 @@ describe( 'Shortcode', () => {
 		// Check if the shortcode is applied correctly.
 		const [ link ] = await page.$x( "//a[contains(., 'Learn React')]" );
 
-		expect( link ).not.toBeNull();
+		expect( link ).not.toBeUndefined();
 	} );
 } );
