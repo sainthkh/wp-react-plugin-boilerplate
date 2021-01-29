@@ -29,6 +29,7 @@ build/
 /theme/asset/
 /theme/style.css
 plugin.zip
+plugin.temp.php
 
 # ignore debug-related plugins
 .wp-env.override.json
