@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import {
 	insertBlock,
 	createNewPost,
 	publishPost,
+	// No definition.
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 } from '@wordpress/e2e-test-utils';
 

@@ -40,4 +40,10 @@ add_action( 'wp_enqueue_scripts', 'wp_react_plugin_load_react' );
 function wp_react_plugin_load_react() {
 	wp_register_script( 'wp-react-plugin-script', WP_REACT_PLUGIN_URL . '/build/build.js' );
 	wp_localize_script( 'wp-react-plugin-script', 'wpReactPlugin', array( 'appId' => 'wp-react-root' ) );
+	wp_enqueue_script( 'wp-api' );
+}
+
+// Load APIs for tests.
+if ( WP_REACT_PLUGIN_DEVELOPMENT_MODE ) {
+	require_once WP_REACT_PLUGIN_PATH . '/test/e2e/api/load.php';
 }
