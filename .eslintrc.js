@@ -24,6 +24,9 @@ module.exports = {
 	},
 	plugins: [ 'react', '@typescript-eslint' ],
 	rules: {
+		// We don't use jsdoc in this project.
 		'jsdoc/no-undefined-types': 'off',
+		// It is necessary to import WordPress types.
+		'@typescript-eslint/triple-slash-reference': 'off',
 	},
 };
