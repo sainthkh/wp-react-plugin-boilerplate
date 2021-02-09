@@ -162,4 +162,5 @@ jobs:
         path: vendor
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
     - run: npm run wp-env start
+    - run: npm run wp-env run tests-cli "ls wp-content/plugins/wp-react-plugin-boilerplate/test/e2e -l"
     - run: npm run test-unit-php
