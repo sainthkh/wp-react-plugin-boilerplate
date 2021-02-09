@@ -17,4 +17,4 @@ $filenames = array_filter( $argv, function ($name, $i) {
 	return $i > 0;
 }, ARRAY_FILTER_USE_BOTH );
 
-wp_react_executeSQL( $filenames );
+wp_react_execute_sql( $filenames );
