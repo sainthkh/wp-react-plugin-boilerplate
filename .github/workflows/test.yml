@@ -161,5 +161,5 @@ jobs:
       with:
         path: vendor
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
-    - run: sudo npm run wp-env start
-    - run: sudo npm run test-unit-php
+    - run: npm run wp-env start
+    - run: npm run test-unit-php
