@@ -5,6 +5,8 @@
  * @package WP React Plugin Boilerplate
  */
 
+require_once __DIR__ . '/lib/sql.php';
+
 function wp_react_db_api() {
 	register_rest_route(
 		'wp-react/test/v1',
@@ -47,13 +49,9 @@ define( 'SQL_FILE_ROOT', dirname( __DIR__ ) . '/sql/' ); /* => test/e2e/sql */
 function wp_react_plugin_run_sql(WP_REST_Request $request) {
 	global $wpdb;
 
-	$files = json_decode($request->get_body(), true);
+	$filenames = json_decode($request->get_body(), true);
 
-	foreach($files as $file) {
-		$raw_sql = file_get_contents( SQL_FILE_ROOT . $file );
-		$sql = $wpdb->prepare($raw_sql, array());
-		$wpdb->query($sql);
-	}
+	wp_react_executeSQL($filenames);
 
 	return "SQL run succeeded";
 }
