@@ -29,7 +29,7 @@ describe( 'DB API', () => {
 		const element = await page.$( '.page-title' );
 		const text = await page.evaluate( ( e ) => e.textContent, element );
 
-		expect( text ).toBe( 'Nothing here2' );
+		expect( text ).toBe( 'Nothing here' );
 	} );
 
 	it( 'SQL is run correctly', async () => {
