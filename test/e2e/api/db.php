@@ -5,13 +5,29 @@
  * @package WP React Plugin Boilerplate
  */
 
+// Load files.
+require_once __DIR__ . '/lib/sql.php';
+
+/**
+ * Register Test Database APIs.
+ */
 function wp_react_db_api() {
 	register_rest_route(
 		'wp-react/test/v1',
 		'/reset-table',
 		array(
-			'methods'  => 'POST',
-			'callback' => 'wp_react_plugin_reset_table',
+			'methods'             => 'POST',
+			'callback'            => 'wp_react_plugin_reset_table',
+			'permission_callback' => '__return_true',
+		)
+	);
+
+	register_rest_route(
+		'wp-react/test/v1',
+		'/run-sql',
+		array(
+			'methods'             => 'POST',
+			'callback'            => 'wp_react_plugin_run_sql',
 			'permission_callback' => '__return_true',
 		)
 	);
@@ -19,15 +35,36 @@ function wp_react_db_api() {
 
 add_action( 'rest_api_init', 'wp_react_db_api' );
 
-function wp_react_plugin_reset_table(WP_REST_Request $request) {
+/**
+ * Reset Table endpoint.
+ *
+ * @param WP_REST_Request $request user request.
+ */
+function wp_react_plugin_reset_table( WP_REST_Request $request ) {
 	global $wpdb;
 
-	$tables = json_decode($request->get_body(), true);
+	$tables = json_decode( $request->get_body(), true );
 
-	foreach($tables as $table) {
-		$sql = $wpdb->prepare("DELETE FROM {$table}", array());
-		$wpdb->query($sql);
+	foreach ( $tables as $table ) {
+		$wpdb->query(
+			$wpdb->prepare( 'DELETE FROM %1$s', array( $table ) )
+		);
 	}
 
-	return "Reset succeeded";
+	return 'Reset succeeded';
+}
+
+define( 'SQL_FILE_ROOT', dirname( __DIR__ ) . '/sql/' ); /* => test/e2e/sql */
+
+/**
+ * Run SQL files.
+ *
+ * @param WP_REST_Request $request user request.
+ */
+function wp_react_plugin_run_sql( WP_REST_Request $request ) {
+	$filenames = json_decode( $request->get_body(), true );
+
+	wp_react_execute_sql( $filenames );
+
+	return 'SQL run succeeded';
 }
