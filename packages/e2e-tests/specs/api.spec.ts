@@ -1,4 +1,4 @@
-import { resetTable } from '../api';
+import { resetTable, runSQL } from '../api';
 
 import {
 	createNewPost,
@@ -9,8 +9,8 @@ import {
 	// @ts-ignore
 } from '@wordpress/e2e-test-utils';
 
-describe( 'Shortcode', () => {
-	it.only( 'shortcode is shown correctly', async () => {
+describe( 'DB API', () => {
+	it( 'table is reset correctly', async () => {
 		// Create post and enter title.
 		await createNewPost();
 		await page.keyboard.type( 'Title' );
@@ -30,5 +30,20 @@ describe( 'Shortcode', () => {
 		const text = await page.evaluate( ( e ) => e.textContent, element );
 
 		expect( text ).toBe( 'Nothing here' );
+	} );
+
+	it( 'SQL is run correctly', async () => {
+		await resetTable( 'wp_posts' );
+		await runSQL( 'post.sql' );
+
+		await page.goto( createURL( '/', '?p=27' ) );
+
+		// Wait for load
+		await page.waitForSelector( '.entry-title' );
+
+		// Check if the shortcode is applied correctly.
+		const [ link ] = await page.$x( "//a[contains(., 'Learn React')]" );
+
+		expect( link ).not.toBeUndefined();
 	} );
 } );
