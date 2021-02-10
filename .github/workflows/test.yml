@@ -86,7 +86,7 @@ jobs:
       with:
         name: Failure Screenshots
         path: test-report
-        if-no-files-found: ignore
+      if: ${{ failure() }}
 
   lint:
     runs-on: ubuntu-latest
