@@ -47,7 +47,7 @@ function wp_react_plugin_reset_table( WP_REST_Request $request ) {
 
 	foreach ( $tables as $table ) {
 		$wpdb->query(
-			$wpdb->prepare( 'DELETE FROM %s', array( $table ) )
+			$wpdb->prepare( 'DELETE FROM %1$s', array( $table ) )
 		);
 	}
 
