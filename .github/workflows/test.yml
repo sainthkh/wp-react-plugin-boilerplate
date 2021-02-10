@@ -81,6 +81,12 @@ jobs:
     - name: Start server
       run: npx wp-env start
     - run: npm run test-e2e
+    - name: Save Screenshots
+      uses: actions/upload-artifact@v2
+      with:
+        name: Failure Screenshots
+        path: test-report
+      if: ${{ failure() }}
 
   lint:
     runs-on: ubuntu-latest
