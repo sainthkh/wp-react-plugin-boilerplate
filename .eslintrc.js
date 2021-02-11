@@ -29,4 +29,30 @@ module.exports = {
 		// It is necessary to import WordPress types.
 		'@typescript-eslint/triple-slash-reference': 'off',
 	},
+	overrides: [
+		{
+			// Unit test files and their helpers only.
+			files: [
+				'**/@(test|__tests__)/**/*.js',
+				'**/@(test|__tests__)/**/*.ts',
+				'**/@(test|__tests__)/**/*.tsx',
+				'**/?(*.)test.js',
+				'**/?(*.)test.ts',
+				'**/?(*.)test.tsx',
+			],
+			extends: [ 'plugin:@wordpress/eslint-plugin/test-unit' ],
+		},
+		{
+			// End-to-end test files and their helpers only.
+			files: [
+				'**/specs/**/*.js',
+				'**/specs/**/*.ts',
+				'**/specs/**/*.tsx',
+				'**/?(*.)spec.js',
+				'**/?(*.)spec.ts',
+				'**/?(*.)spec.tsx',
+			],
+			extends: [ 'plugin:@wordpress/eslint-plugin/test-e2e' ],
+		},
+	],
 };
