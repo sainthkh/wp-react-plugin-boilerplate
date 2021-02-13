@@ -48,3 +48,14 @@ describe( 'Shortcode', () => {
 		expect( link ).not.toBeUndefined();
 	} );
 } );
+
+describe( 'Retry', () => {
+	let i = 0;
+	function f() {
+		return i++;
+	}
+
+	it( 'fails until retry 3 times', () => {
+		expect( 2 ).toBe( f() );
+	} );
+} );
