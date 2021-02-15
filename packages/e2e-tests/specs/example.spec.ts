@@ -1,11 +1,12 @@
 import {
 	insertBlock,
 	createNewPost,
-	publishPost,
 	// No definition.
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 } from '@wordpress/e2e-test-utils';
+
+import { publishPost } from '../util';
 
 // Default example copied from the official Jest site.
 // https://jestjs.io/docs/en/puppeteer
