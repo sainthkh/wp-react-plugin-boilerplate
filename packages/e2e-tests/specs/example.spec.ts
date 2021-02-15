@@ -1,11 +1,12 @@
 import {
 	insertBlock,
 	createNewPost,
-	publishPost,
 	// No definition.
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 } from '@wordpress/e2e-test-utils';
+
+import { publishPost } from '../util';
 
 // Default example copied from the official Jest site.
 // https://jestjs.io/docs/en/puppeteer
@@ -46,5 +47,16 @@ describe( 'Shortcode', () => {
 		const [ link ] = await page.$x( "//a[contains(., 'Learn React')]" );
 
 		expect( link ).not.toBeUndefined();
+	} );
+} );
+
+describe( 'Retry', () => {
+	let i = 0;
+	function f() {
+		return i++;
+	}
+
+	it( 'fails until retry 3 times', () => {
+		expect( 2 ).toBe( f() );
 	} );
 } );
