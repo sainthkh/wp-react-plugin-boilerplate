@@ -41,7 +41,7 @@ describe( 'Shortcode', () => {
 		}
 
 		// Wait for load
-		await page.waitForSelector( '.entry-title2' );
+		await page.waitForSelector( '.entry-title' );
 
 		// Check if the shortcode is applied correctly.
 		const [ link ] = await page.$x( "//a[contains(., 'Learn React')]" );
