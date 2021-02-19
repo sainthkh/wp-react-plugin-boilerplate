@@ -1,8 +1,16 @@
 {
 	"plugins": {
-		"hello-samuel-l-jackson": "1.0"
+		"hello-samuel-l-jackson": "1.0",
+		"test-x": {
+			"url": "https://api.github.com/repos/wardbase/filebase/contents/test/plugin-x.zip",
+			"key": "WP_REACT_GITHUB_SECRET"
+		}
 	},
 	"themes": {
-		"twentyfourteen": "3.0"
+		"twentyfourteen": "3.0",
+		"test-x": {
+			"url": "https://api.github.com/repos/wardbase/filebase/contents/test/theme-x.zip",
+			"key": "WP_REACT_GITHUB_SECRET"
+		}
 	}
 }

@@ -24,6 +24,7 @@
     "test-unit": "wp-scripts test-unit-js --config test/unit/jest.config.js",
     "test-unit-php": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/wp-react-plugin-boilerplate/phpunit.xml.dist --verbose\"",
     "wp-env": "wp-env",
+    "update:composer": "wp-env run composer update",
     "zip": "node bin/zip-plugin.js"
   },
   "repository": {

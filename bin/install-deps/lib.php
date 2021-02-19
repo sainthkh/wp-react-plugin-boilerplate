@@ -9,53 +9,90 @@ define('WP_DEPS_PLUGINS', WP_DEPS_ROOT . 'plugins/' );
 define('WP_DEPS_THEMES', WP_DEPS_ROOT . 'themes/');
 define('WP_ENV_PATH', __DIR__ . '/../../.wp-env.json');
 define('WP_ENV_OVERRIDE_PATH', __DIR__ . '/../../.wp-env.override.json');
-define('WP_PLUGINS_ROOT', "https://downloads.wordpress.org/plugin/" );
+define('WP_PLUGINS_ROOT_URL', "https://downloads.wordpress.org/plugin/" );
+define('WP_THEMES_ROOT_URL', "https://downloads.wordpress.org/theme/" );
 
 $zip = new ZipArchive;
 
-/**
- * Install plugins
- *
- * @param object $deps WordPress dependencies.
- */
-function install_plugins($deps) {
+function is_json($string) {
+	json_decode($string);
+	return (json_last_error() === JSON_ERROR_NONE);
+}
+
+function install_deps($dep_category_dir, $wp_category_url, $deps) {
 	global $zip;
 
-	if (count(get_object_vars( $deps->plugins )) > 0) {
-		if (!file_exists(WP_DEPS_PLUGINS)) {
-			mkdir(WP_DEPS_PLUGINS);
+	if (count(get_object_vars( $deps )) > 0) {
+		if (!file_exists($dep_category_dir)) {
+			mkdir($dep_category_dir);
 		}
 
-		foreach ($deps->plugins as $name => $version) {
-			$url = strpos($version, "://") !== false
-				? $version
-				: WP_PLUGINS_ROOT . $name . "." . $version . ".zip";
-
-			$filename = WP_DEPS_PLUGINS . $name . '.zip';
-			$raw = @file_get_contents($url);
-			if ($raw === false) {
-				$raw = @file_get_contents(WP_PLUGINS_ROOT . $name . '.zip');
-
-				if ($raw === false) {
-					echo "Failed downloading " . $name . "\n";
-					continue;
-				}
-
-				echo "Downloaded " . $name . " " . $version . "\n";
+		foreach ($deps as $name => $version) {
+			$url = '';
+			$key = null;
+			if(is_object($version)) {
+				$url = $version->url;
+				$key = $version->key;
+			} else {
+				$url = strpos($version, "://") !== false
+					? $version
+					: $wp_category_url . $name . "." . $version . ".zip";
 			}
 
-			file_put_contents($filename, $raw);
+			$filename = $dep_category_dir . $name . '.zip';
+			$raw = false;
+			if ($key !== null) {
+				$curl = curl_init();
+
+				$header = array(
+					'Authorization: token ' . $_ENV[$key],
+					'Accept: application/vnd.github.v3.raw',
+				);
+
+				$config['useragent'] = 'WP-React-Installer/0.2.0';
+
+				curl_setopt($curl, CURLOPT_USERAGENT, $config['useragent']);
+				curl_setopt($curl, CURLOPT_URL, $url);
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+				$raw = curl_exec($curl);
+
+				if (is_json($raw)) {
+					$raw = false;
+				}
+
+				curl_close($curl);
+			} else {
+				$raw = @file_get_contents($url);
+
+				if ($raw === false) {
+					$raw = @file_get_contents(WP_PLUGINS_ROOT_URL . $name . '.zip');
+				}
+			}
+
+			if ($raw !== false) {
+				if (is_object($version)) {
+					echo "Downloaded " . $name . "\n";
+				} else {
+					echo "Downloaded " . $name . " " . $version . "\n";
+				}
+			} else {
+				echo "Failed downloading " . $name . "\n";
+				continue;
+			}
+			file_put_contents($filename, $raw );
 
 			// extract file.
 			$res = $zip->open($filename);
 
 			if($res === TRUE) {
 				// Check if the root directory of the plugin is included.
-				$plugin_path = $zip->locateName($name . '/') !== false
-					? WP_DEPS_PLUGINS
-					: WP_DEPS_PLUGINS . $name;
+				$theme_path = $zip->locateName($name . '/') === false
+					? $dep_category_dir . $name
+					: $dep_category_dir;
 
-				$zip->extractTo(WP_DEPS_PLUGINS);
+				$zip->extractTo($theme_path);
 				$zip->close();
 				echo "Extracted " . $name . "\n";
 			} else {
@@ -70,51 +107,19 @@ function install_plugins($deps) {
 /**
  * Install themes
  *
- * @param object $deps WordPress dependencies.
+ * @param object $themes WordPress themes to install.
  */
-function install_themes($deps) {
-	global $zip;
+function install_themes($themes) {
+	return install_deps(WP_DEPS_THEMES, WP_THEMES_ROOT_URL, $themes);
+}
 
-	if (count(get_object_vars( $deps->themes )) > 0) {
-		if (!file_exists(WP_DEPS_THEMES)) {
-			mkdir(WP_DEPS_THEMES);
-		}
-
-		foreach ($deps->themes as $name => $version) {
-			$url = strpos($version, "://") !== false
-				? $version
-				: "https://downloads.wordpress.org/theme/" . $name . "." . $version . ".zip";
-
-			$filename = WP_DEPS_THEMES . $name . '.zip';
-
-			$raw = @file_get_contents($url);
-			if ($raw !== false) {
-				echo "Downloaded " . $name . " " . $version . "\n";
-			} else {
-				echo "Failed downloading " . $name . "\n";
-				continue;
-			}
-			file_put_contents($filename, $raw );
-
-			// extract file.
-			$res = $zip->open($filename);
-
-			if($res === TRUE) {
-				// Check if the root directory of the plugin is included.
-				$plugin_path = $zip->locateName($name . '/') !== false
-					? WP_DEPS_THEMES
-					: WP_DEPS_THEMES . $name;
-
-				$zip->extractTo(WP_DEPS_THEMES);
-				$zip->close();
-				echo "Extracted " . $name . "\n";
-			} else {
-				echo "Failed unzipping " . $name . "\n";
-			}
-
-			unlink($filename);
-		}
-	}
+/**
+ * Install plugins
+ *
+ * @param object $plugins WordPress plugins to install.
+ */
+function install_plugins($plugins) {
+	return install_deps(WP_DEPS_PLUGINS, WP_PLUGINS_ROOT_URL, $plugins);
 }
 
 /**

@@ -35,6 +35,5 @@ plugin.temp.php
 # ignore debug-related plugins
 .wp-env.override.json
 
-# include data.sql file.
-!/packages/test-data/env/data.sql
-!/packages/test-data/tests/data.sql
+# ignore settings
+.env
