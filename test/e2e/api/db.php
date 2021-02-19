@@ -47,7 +47,10 @@ function wp_react_plugin_reset_table( WP_REST_Request $request ) {
 
 	foreach ( $tables as $table ) {
 		$wpdb->query(
-			$wpdb->prepare( 'DELETE FROM %1$s', array( $table ) )
+			// Reason for ignore:
+			// If complex placeholder is not used, table name is wrapped with quotes and query fails.
+			// @see https://github.com/WordPress/WordPress-Coding-Standards/issues/1903.
+			$wpdb->prepare( 'DELETE FROM %1$s', array( $table ) ) // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
 		);
 	}
 

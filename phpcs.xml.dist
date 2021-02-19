@@ -32,6 +32,7 @@
 	<file>./packages</file>
 	<file>./phpunit</file>
 	<file>./test/e2e</file>
+	<file>./bin</file>
 
 	<!-- These special comments are markers for the build process -->
 	<rule ref="Squiz.Commenting.InlineComment.WrongStyle">
