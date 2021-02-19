@@ -20,6 +20,20 @@ describe( 'WP Dependencies', () => {
 
 			expect( name ).not.toBeUndefined();
 		} );
+
+		it( 'From Github private repo', async () => {
+			visitAdminPage( 'plugins.php' );
+
+			// Wait for load
+			await page.waitForSelector( '.wp-heading-inline' );
+
+			// Check if the plugin is installed correctly.
+			const [ name ] = await page.$x(
+				"//strong[contains(., 'WP React Plugin X')]"
+			);
+
+			expect( name ).not.toBeUndefined();
+		} );
 	} );
 
 	describe( 'Theme', () => {
@@ -31,6 +45,18 @@ describe( 'WP Dependencies', () => {
 
 			// Check if the plugin is installed correctly.
 			const name = await page.$( '#twentyfourteen-name' );
+
+			expect( name ).not.toBeNull();
+		} );
+
+		it( 'From Github private repo', async () => {
+			visitAdminPage( 'themes.php' );
+
+			// Wait for load
+			await page.waitForSelector( '.wp-heading-inline' );
+
+			// Check if the plugin is installed correctly.
+			const name = await page.$( '#test-x-name' );
 
 			expect( name ).not.toBeNull();
 		} );
