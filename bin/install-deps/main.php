@@ -19,6 +19,9 @@ if ( file_exists( WP_REACT_PLUGIN_PATH . '/.env' ) ) {
 	$dotenv->load();
 }
 
+echo $_ENV['WP_REACT_GITHUB_SECRET'] !== null ? 'Key exists' : 'Key does not exist';
+echo "\n";
+
 // Step 1. Check wp-deps.json exists.
 
 if ( ! file_exists( WP_DEPS_FILE ) ) {
