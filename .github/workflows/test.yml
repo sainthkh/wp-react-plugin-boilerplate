@@ -49,7 +49,7 @@ jobs:
         path: |
           wp-deps
           .wp-env.override.json
-        key: ${{ runner.os }}-${{ matrix.node-version }}-wp-deps-${{ hashFiles('wp-deps.json') }}
+        key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
     - run: chmod -R 777 ./ # Fix write permission problem.
     - run: npm run install:wp-deps
       if: steps.wp-deps-cache.outputs.cache-hit != 'true'
@@ -91,7 +91,7 @@ jobs:
         path: |
           wp-deps
           .wp-env.override.json
-        key: ${{ runner.os }}-${{ matrix.node-version }}-wp-deps-${{ hashFiles('wp-deps.json') }}
+        key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
     - name: Restore built assets
       uses: actions/cache@v2
       with:
