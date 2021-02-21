@@ -9,18 +9,15 @@ define( 'WP_DEPS_FILE', __DIR__ . '/../../wp-deps.json' );
 define( 'WP_DEPS_ROOT', __DIR__ . '/../../wp-deps/' );
 define( 'WP_REACT_PLUGIN_PATH', __DIR__ . '/../../' );
 
-require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/lib.php';
 
 // Load dotenv for local env.
 $dotenv = null;
 if ( file_exists( WP_REACT_PLUGIN_PATH . '/.env' ) ) {
+	require_once __DIR__ . '/../../vendor/autoload.php';
 	$dotenv = Dotenv\Dotenv::createImmutable( WP_REACT_PLUGIN_PATH );
 	$dotenv->load();
 }
-
-echo $_ENV['WP_REACT_GITHUB_SECRET'] !== null ? 'Key exists' : 'Key does not exist';
-echo "\n";
 
 // Step 1. Check wp-deps.json exists.
 

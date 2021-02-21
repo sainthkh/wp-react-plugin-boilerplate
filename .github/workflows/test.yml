@@ -52,6 +52,8 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
     - run: chmod -R 777 ./ # Fix write permission problem.
     - run: npm run install:wp-deps
+      env:
+        WP_REACT_GITHUB_SECRET: ${{ secrets.WP_REACT_GITHUB_SECRET }}
       if: steps.wp-deps-cache.outputs.cache-hit != 'true'
 
     # build assets
