@@ -28,6 +28,7 @@ jobs:
     - run: npm i
       if: steps.npm-cache.outputs.cache-hit != 'true'
 
+    - run: chmod -R 777 ./ # Fix write permission problem.
     - name: Start wp-env
       run: npm run wp-env start
 
@@ -50,7 +51,6 @@ jobs:
           wp-deps
           .wp-env.override.json
         key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
-    - run: chmod -R 777 ./ # Fix write permission problem.
     - name: Install WordPress dependencies
       run: npm run install:wp-deps:ci -- $WP_REACT_GITHUB_SECRET
       env:
