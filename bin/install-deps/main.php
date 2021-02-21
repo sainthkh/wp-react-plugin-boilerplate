@@ -13,8 +13,8 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/lib.php';
 
 // Load dotenv for local env.
-$dotenv = NULL;
-if (file_exists( WP_REACT_PLUGIN_PATH . '/.env')) {
+$dotenv = null;
+if ( file_exists( WP_REACT_PLUGIN_PATH . '/.env' ) ) {
 	$dotenv = Dotenv\Dotenv::createImmutable( WP_REACT_PLUGIN_PATH );
 	$dotenv->load();
 }
