@@ -50,6 +50,7 @@ jobs:
           wp-deps
           .wp-env.override.json
         key: ${{ runner.os }}-${{ matrix.node-version }}-wp-deps-${{ hashFiles('wp-deps.json') }}
+    - run: chmod -R 777 ./ # Fix write permission problem.
     - run: npm run install:wp-deps
       if: steps.wp-deps-cache.outputs.cache-hit != 'true'
 
