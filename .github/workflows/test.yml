@@ -32,7 +32,7 @@ jobs:
       run: npm run wp-env start
 
     # vendor
-    - name: Restore vendor
+    - name: Cache vendor
       uses: actions/cache@v2
       id: vendor-cache
       with:
@@ -40,6 +40,18 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
     - run: npm run install:composer
       if: steps.vendor-cache.outputs.cache-hit != 'true'
+
+    # WordPress Dependencies
+    - name: Cache WordPress dependencies
+      uses: actions/cache@v2
+      id: wp-deps-cache
+      with:
+        path: |
+          wp-deps
+          .wp-env.override.json
+        key: ${{ runner.os }}-${{ matrix.node-version }}-wp-deps-${{ hashFiles('wp-deps.json') }}
+    - run: npm run install:wp-deps
+      if: steps.wp-deps-cache.outputs.cache-hit != 'true'
 
     # build assets
     - run: npm run build
@@ -72,6 +84,13 @@ jobs:
       with:
         path: vendor
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - name: Restore WordPress dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          wp-deps
+          .wp-env.override.json
+        key: ${{ runner.os }}-${{ matrix.node-version }}-wp-deps-${{ hashFiles('wp-deps.json') }}
     - name: Restore built assets
       uses: actions/cache@v2
       with:

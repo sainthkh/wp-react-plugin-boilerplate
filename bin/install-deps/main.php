@@ -7,12 +7,17 @@
 
 define( 'WP_DEPS_FILE', __DIR__ . '/../../wp-deps.json' );
 define( 'WP_DEPS_ROOT', __DIR__ . '/../../wp-deps/' );
+define( 'WP_REACT_PLUGIN_PATH', __DIR__ . '/../../' );
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/lib.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/../../' );
-$dotenv->load();
+// Load dotenv for local env.
+$dotenv = NULL;
+if (file_exists( WP_REACT_PLUGIN_PATH . '/.env')) {
+	$dotenv = Dotenv\Dotenv::createImmutable( WP_REACT_PLUGIN_PATH );
+	$dotenv->load();
+}
 
 // Step 1. Check wp-deps.json exists.
 
