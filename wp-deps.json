@@ -1,4 +1,5 @@
 {
+	"version": "0.2.0",
 	"plugins": {
 		"hello-samuel-l-jackson": "1.0",
 		"test-x": {
@@ -12,6 +13,5 @@
 			"url": "https://api.github.com/repos/wardbase/filebase/contents/test/theme-x.zip",
 			"key": "WP_REACT_GITHUB_SECRET"
 		}
-	},
-	"x": "5"
+	}
 }
