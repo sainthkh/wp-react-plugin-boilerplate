@@ -51,7 +51,8 @@ jobs:
           .wp-env.override.json
         key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
     - run: chmod -R 777 ./ # Fix write permission problem.
-    - run: npm run install:wp-deps
+    - name: Install WordPress dependencies
+      run: npm run install:wp-deps -- "$WP_REACT_GITHUB_SECRET"
       env:
         WP_REACT_GITHUB_SECRET: ${{ secrets.WP_REACT_GITHUB_SECRET }}
       if: steps.wp-deps-cache.outputs.cache-hit != 'true'
