@@ -13,6 +13,7 @@
     "gen-sql": "wp-env run cli php wp-content/plugins/wp-react-plugin-boilerplate/bin/generate-sql.php",
     "install:composer": "wp-env run composer install",
     "install:wp-deps": "wp-env run cli php wp-content/plugins/wp-react-plugin-boilerplate/bin/install-deps/main.php",
+    "install:wp-deps:ci": "wp-env run cli bash wp-content/plugins/wp-react-plugin-boilerplate/bin/install-deps/exe.sh",
     "lint-css": "wp-scripts lint-style",
     "lint-css:fix": "npm run lint-css -- --fix",
     "lint-js": "wp-scripts lint-js",
