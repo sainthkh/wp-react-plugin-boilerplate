@@ -12,5 +12,6 @@
 			"url": "https://api.github.com/repos/wardbase/filebase/contents/test/theme-x.zip",
 			"key": "WP_REACT_GITHUB_SECRET"
 		}
-	}
+	},
+	"x": "123"
 }
