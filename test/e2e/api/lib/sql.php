@@ -41,9 +41,19 @@ function wp_react_generate_sql( $filenames ) {
 
 		foreach ( $statements as $sql ) {
 			if ( preg_match( '/\S/', $sql ) ) {
-				$content .= '-- ' . $sql . "\n";
+				$sql_lines   = explode( "\n", trim( $sql ) );
+				$sql_comment = implode(
+					"\n",
+					array_map(
+						function( $line ) {
+							return '-- ' . $line;
+						},
+						$sql_lines
+					)
+				);
+				$content    .= $sql_comment . "\n";
 
-				preg_match( '/from\s+([^ ]+)/i', $sql, $m );
+				preg_match( '/from\s+([^ \n]+)/i', $sql, $m );
 				$table_name = $m[1];
 
 				// Reason for ignore:
