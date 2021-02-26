@@ -5,9 +5,7 @@ insert into wp_posts values(
 	/* post_author */              '1',
 	/* post_date */                '2021-02-08 17:48:08',
 	/* post_date_gmt */            '2021-02-08 17:48:08',
-	/* post_content */             '<!-- wp:shortcode -->
-[React]
-<!-- /wp:shortcode -->',
+	/* post_content */             '<!-- wp:shortcode -->\n[React]\n<!-- /wp:shortcode -->',
 	/* post_title */               'Hello WP React World!',
 	/* post_excerpt */             '',
 	/* post_status */              'publish',

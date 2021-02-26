@@ -42,7 +42,7 @@ class SQL_Command_Test extends WP_UnitTestCase {
 	/**
 	 * Test executeSQL function with multiple statements in a file
 	 */
-	function test_execute_sql_multiple_statements_in_a_file() {
+	function test_execute_sql__multiple_statements_in_a_file() {
 		global $wpdb;
 
 		wp_react_execute_sql( array( 'reset-posts.sql', 'multiple-insert.sql' ) );
@@ -50,5 +50,18 @@ class SQL_Command_Test extends WP_UnitTestCase {
 		$results = $wpdb->get_results( 'select * from wp_posts' );
 
 		$this->assertEquals( count( $results ), 2 );
+	}
+
+	/**
+	 * Test executeSQL function with multiple statements in a file
+	 */
+	function test_execute_sql__semicolon_in_string() {
+		global $wpdb;
+
+		wp_react_execute_sql( array( 'reset-posts.sql', 'semicolon-in-string.sql' ) );
+
+		$results = $wpdb->get_results( 'select * from wp_posts' );
+
+		$this->assertEquals( count( $results ), 1 );
 	}
 }
