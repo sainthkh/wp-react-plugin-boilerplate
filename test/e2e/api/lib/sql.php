@@ -16,17 +16,23 @@ function wp_react_execute_sql( $filenames ) {
 	global $wpdb;
 
 	foreach ( $filenames as $filename ) {
-		$raw    = file_get_contents( SQL_FILE_ROOT . $filename );
+		$raw = file_get_contents( SQL_FILE_ROOT . $filename );
 
-		$result = mysqli_multi_query($wpdb->dbh, $raw);
+		// Reason for ignore:
+		// Raw SQL file contains multiple SQL statements. It's necessary to use this function.
+		$result = mysqli_multi_query( $wpdb->dbh, $raw ); // phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_multi_query
 
+		// Reason for ignore:
 		// Flush queries.
 		// WordPress uses mysqli_query. When mysqli_query and mysqli_multi_query are used together,
 		// they can cause commands out of sync error.
-		while(mysqli_next_result($wpdb->dbh));
+		// @see https://stackoverflow.com/a/66378950/1038927.
+		while ( mysqli_next_result( $wpdb->dbh ) ); // phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_next_result
 
-		if ($result === false) {
-			echo "Query Error: " . mysqli_error($wpdb->dbh) . "\n";
+		if ( false === $result ) {
+			// Reason for ignore:
+			// It is necessary to use error function because we used error mysql function.
+			echo 'Query Error: ' . mysqli_error( $wpdb->dbh ) . "\n"; // phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_error
 		}
 	}
 }
@@ -81,7 +87,9 @@ function wp_react_generate_sql( $filenames ) {
 
 					foreach ( $r as $column => $value ) {
 						$whitespace = str_repeat( ' ', $maxlength + 4 - strlen( $column ) );
-						$values[]   = "\t/* " . $column . ' */' . $whitespace . "'" . mysqli_real_escape_string( $wpdb->dbh, $value ) . "'";
+						// Reason for ignore:
+						// It is necessary to escape serialized object.
+						$values[] = "\t/* " . $column . ' */' . $whitespace . "'" . mysqli_real_escape_string( $wpdb->dbh, $value ) . "'"; // phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_real_escape_string
 					}
 
 					$content .= 'insert into ' . $table_name . ' values(' . "\n" .

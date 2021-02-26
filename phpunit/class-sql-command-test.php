@@ -45,7 +45,7 @@ class SQL_Command_Test extends WP_UnitTestCase {
 	function test_execute_sql__multiple_statements_in_a_file() {
 		global $wpdb;
 
-		wp_react_execute_sql( array('reset-posts.sql', 'multiple-insert.sql' ) );
+		wp_react_execute_sql( array( 'reset-posts.sql', 'multiple-insert.sql' ) );
 
 		$results = $wpdb->get_results( 'select * from wp_posts' );
 
