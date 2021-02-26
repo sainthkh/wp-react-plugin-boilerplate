@@ -16,16 +16,17 @@ function wp_react_execute_sql( $filenames ) {
 	global $wpdb;
 
 	foreach ( $filenames as $filename ) {
-		$raw        = file_get_contents( SQL_FILE_ROOT . $filename );
-		$statements = explode( ';', $raw );
+		$raw    = file_get_contents( SQL_FILE_ROOT . $filename );
 
-		foreach ( $statements as $sql ) {
-			if ( preg_match( '/\S/', $sql ) ) {
-				// Reason for ignore:
-				// Executing raw SQL is necessary for test.
-				// And this file is only included in the development version.
-				$wpdb->query( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			}
+		$result = mysqli_multi_query($wpdb->dbh, $raw);
+
+		// Flush queries.
+		// WordPress uses mysqli_query. When mysqli_query and mysqli_multi_query are used together,
+		// they can cause commands out of sync error.
+		while(mysqli_next_result($wpdb->dbh));
+
+		if ($result === false) {
+			echo "Query Error: " . mysqli_error($wpdb->dbh) . "\n";
 		}
 	}
 }
@@ -80,7 +81,7 @@ function wp_react_generate_sql( $filenames ) {
 
 					foreach ( $r as $column => $value ) {
 						$whitespace = str_repeat( ' ', $maxlength + 4 - strlen( $column ) );
-						$values[]   = "\t/* " . $column . ' */' . $whitespace . "'" . $value . "'";
+						$values[]   = "\t/* " . $column . ' */' . $whitespace . "'" . mysqli_real_escape_string( $wpdb->dbh, $value ) . "'";
 					}
 
 					$content .= 'insert into ' . $table_name . ' values(' . "\n" .
