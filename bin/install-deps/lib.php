@@ -74,6 +74,8 @@ function install_deps( $dep_category_dir, $wp_category_url, $deps ) {
 				$raw = curl_exec( $curl );
 
 				if ( is_json( $raw ) ) {
+					var_dump( $raw );
+
 					$raw = false;
 				}
 
