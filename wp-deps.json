@@ -13,5 +13,10 @@
 			"url": "https://api.github.com/repos/wardbase/filebase/contents/test/theme-x.zip",
 			"key": "WP_REACT_GITHUB_SECRET"
 		}
+	},
+	"dev": {
+		"plugins": {
+			"wp-phpmyadmin-extension": "5.0.4.1"
+		}
 	}
 }
