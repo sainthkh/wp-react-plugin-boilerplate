@@ -34,11 +34,18 @@ if ( ! file_exists( WP_DEPS_ROOT ) ) {
 
 // Step 3. Download files and unzip them.
 
-$raw  = file_get_contents( WP_DEPS_FILE );
-$deps = json_decode( $raw );
+$raw     = file_get_contents( WP_DEPS_FILE );
+$deps    = json_decode( $raw );
+$plugins = $deps->plugins;
+$themes  = $deps->themes;
 
-install_plugins( $deps->plugins );
-install_themes( $deps->themes );
+if ( ! $_ENV['WP_REACT_PRODUCTION'] ) {
+	$plugins = (object) array_merge( (array) $deps->plugins, (array) $deps->dev->plugins );
+	$themes  = (object) array_merge( (array) $deps->themes, (array) $deps->dev->themes );
+}
+
+install_plugins( $plugins );
+install_themes( $themes );
 
 // Step 4. Generate wp-env.override.json.
 
