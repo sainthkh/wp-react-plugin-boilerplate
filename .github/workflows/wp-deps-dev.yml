@@ -43,6 +43,6 @@ jobs:
       if: steps.vendor-cache.outputs.cache-hit != 'true'
 
     - name: Install WordPress dependencies
-      run: npm run wp-env run cli bash wp-content/plugins/wp-react-plugin-boilerplate/bin/install-deps/exe.sh -- --dev $WP_REACT_GITHUB_SECRET
+      run: npm run wp-env run cli bash wp-content/plugins/wp-react-plugin-boilerplate/bin/install-deps/exe.sh --dev $WP_REACT_GITHUB_SECRET
       env:
         WP_REACT_GITHUB_SECRET: ${{ secrets.WP_REACT_GITHUB_SECRET }}
