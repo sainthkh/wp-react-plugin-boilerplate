@@ -4,6 +4,8 @@ export WP_REACT_GITHUB_SECRET=$2
 
 for var in "$@"
 do
+	echo "$var"
+
     if [ "$var" = "--production" ]
 	then
 		export WP_REACT_PRODUCTION=$var
